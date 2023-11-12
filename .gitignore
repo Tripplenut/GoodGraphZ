@@ -30,7 +30,16 @@
 *.exe
 *.out
 *.app
+/tests/test
+
+#CMAKE
+/CMakeFiles
+*/CMakeFiles
+*CMakeCache.txt
+*Makefile
+*.cmake
 
 # Personal Ignores
 /build
+/.vscode
 main.cpp
