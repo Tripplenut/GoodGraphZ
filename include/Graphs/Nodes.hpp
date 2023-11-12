@@ -1,5 +1,11 @@
-/** @file Nodes.hpp
+/**
+ * @file Nodes.hpp
+ * @author Anthony Fabius
  * @brief This is where all things Node Related are stored
+ * @date 2023-11-11
+ * 
+ * @copyright Copyright (c) 2023
+ * 
 */
 
 #ifndef NODES_HPP
@@ -13,13 +19,17 @@ template <class E>
 class Edge;
 
 // CPP includes
-#include <set>
+#include <string>
+#include <unordered_set>
 
 // GGZ includes
 #include "Graphs.hpp"
 #include "Edges.hpp"
 
-
+/**
+ * @brief The main Node class
+ * @tparam T The weight type
+ */
 template <class T>
 class Node {
 private:
@@ -30,32 +40,45 @@ private:
   friend class Edge;
 
   // Member Variables
-  int id;
+  std::string id;
   T data;
   bool weighted;
-  std::set<int> Edges;
+  std::unordered_set<int> Edges;
 
   // Constructors, Destructors, and Assignment Operators
   /**
    * @brief Weighted Node Constructor
-   * @param id_ Unique Id for Node
-   * @param data_ Data of Node
+   * @param id_ Id for Node
   */
-  Node(int id_){
+  Node(std::string id_){
     id = id_;
     weighted = false;
   }
 
   /**
    * @brief Weighted Node Constructor
-   * @param id_ Unique Id for Node
+   * @param id_ Id for Node
    * @param data_ Data of Node
   */
-  Node(int id_, T data_){
+  Node(std::string id_, T data_){
     id = id_;
     data = data_;
     weighted = true;
   }
+
+public:
+  // Overloaded Operators
+  /**
+   * @brief Overloaded Dereference Operator for Nodes
+  */
+  std::string* operator->() { return &id; }
+
+  /**
+   * @brief Overloaded Equivalence Operator for Nodes
+   * @param other The other Node
+   */
+  bool operator==(const Node& other) const { return id = other.id; }
+
 };
 
 #endif
