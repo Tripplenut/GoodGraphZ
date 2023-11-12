@@ -44,6 +44,11 @@ private:
   T data;
   bool weighted;
   std::unordered_set<int> Edges;
+  std::unordered_set<int> InEdges;
+  std::unordered_set<int> OutEdges;
+  // Either Edges is used or InEdges and OutEdges
+  //! Think about redesigning so edge lookup is O(1) instead of O(n)
+  //! Maybe hashmap<string,int> where string is the node and int is the edge id
 
   // Constructors, Destructors, and Assignment Operators
   /**
@@ -67,6 +72,7 @@ private:
   }
 
 public:
+
   // Overloaded Operators
   /**
    * @brief Overloaded Dereference Operator for Nodes

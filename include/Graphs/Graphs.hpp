@@ -14,6 +14,7 @@
 // CPP includes
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 // GGZ includes
@@ -94,6 +95,53 @@ public:
   }
 
   //TODO - Node and Edges Getters and Setters
+  
+  /**
+   * @brief Get the node being searched
+   * @param src The node id
+   */
+  Node<N>& getNode(std::string& src){ return Nodes[src]; }
+
+
+  //Edge<E>& getEdge(std::string& src, std::string& dest){}
+
+  
+  /**
+   * @brief Get the edges of a node
+   * @param src The node id
+   * @return std::vector<Edge<E>&> 
+   */
+  //std::vector<Edge<E>&> getEdges(std::string& src){}
+
+
+  /**
+   * @brief Get the the incoming edges of a node
+   * @param src The node id
+   * @return std::vector<Edge<E>&> 
+   */
+  //std::vector<Edge<E>&> getIncomingEdges(std::string src){}
+
+
+  /**
+   * @brief Get the outgoing edges of a node
+   * @param src The node id
+   * @return std::vector<Edge<E>&>
+   */
+  //std::vector<Edge<E>&> getOutgoingEdges(std::string src){}
+
+
+  //TODO - Graph Data
+  /**
+   * @brief Get the total number of nodes in the graph
+   * @return int The number of nodes
+   */
+  int getTotalNodes(){ return Nodes.size(); }
+
+  /**
+   * @brief Gets the total number of edges in the graph
+   * @return int The number of edges
+   */
+  int getTotalEdges(){ return Edges.size(); }
 
   //TODO - Create an Alert System
   // For example check if there are mixture of weighted and unweighted node or edges

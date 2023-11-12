@@ -17,7 +17,7 @@ function header {
 export CXX=/usr/bin/clang
 export CXX=/usr/bin/clang++
 SRC_DIRS=("./include" "./src" "./tests")
-BUILD_DIRS=("./build")
+BUILD_DIR=("./build")
 TESTS_ENABLED=false
 VALGRIND_ENABLED=false
 GCC_ENABLED=false
@@ -58,7 +58,9 @@ echo "GCC Enabled: ${GCC_ENABLED}"
 
 header "CMake"
 
-cmake .
+cd "${BUILD_DIR}"
+
+cmake -DCMAKE_BUILD_TYPE=Debug ..
 
 header "Make"
 
@@ -81,4 +83,5 @@ then
     valgrind --leak-check=full "${TEST_EXE}"
   fi
 fi
-# Clean up CMake files after?
+
+exit 0
