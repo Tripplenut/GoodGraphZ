@@ -20,7 +20,7 @@ class Edge;
 
 // CPP includes
 #include <string>
-#include <unordered_set>
+#include <unordered_map>
 
 // GGZ includes
 #include "Graphs.hpp"
@@ -42,42 +42,56 @@ private:
   // Member Variables
   std::string id;
   T data;
+  bool directed;
   bool weighted;
-  std::unordered_set<int> Edges;
-  std::unordered_set<int> InEdges;
-  std::unordered_set<int> OutEdges;
+  std::unordered_map<std::string,int> Edges;
+  std::unordered_map<std::string,int> InEdges;
+  std::unordered_map<std::string,int> OutEdges;
   // Either Edges is used or InEdges and OutEdges
-  //! Think about redesigning so edge lookup is O(1) instead of O(n)
-  //! Maybe hashmap<string,int> where string is the node and int is the edge id
 
   // Constructors, Destructors, and Assignment Operators
   /**
    * @brief Weighted Node Constructor
    * @param id_ Id for Node
+   * @param isDirected Sets if node is directed or not
   */
-  Node(std::string id_){
+  Node(std::string id_, bool isDirected){
     id = id_;
     weighted = false;
+    directed = isDirected;
   }
 
   /**
    * @brief Weighted Node Constructor
    * @param id_ Id for Node
    * @param data_ Data of Node
+   * @param isDirected Sets if node is directed or now
   */
-  Node(std::string id_, T data_){
+  Node(std::string id_, T data_, bool isDirected){
     id = id_;
     data = data_;
     weighted = true;
+    directed = isDirected;
+  }
+
+  /**
+   * @brief Adds edge info to node
+   * @param otherNodeId The id of the node connected to
+   * @param EdgeId The id of the edge in the graphs set
+   */
+  void addEdge(std::string otherNodeId, int EdgeId){
+    //! Add implementation for directed graphs
+    Edges.emplace(otherNodeId,EdgeId);
   }
 
 public:
+
 
   // Overloaded Operators
   /**
    * @brief Overloaded Dereference Operator for Nodes
   */
-  std::string* operator->() { return &id; }
+  //std::string* operator->() { return &id; }
 
   /**
    * @brief Overloaded Equivalence Operator for Nodes

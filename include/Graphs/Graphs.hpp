@@ -13,9 +13,11 @@
 
 // CPP includes
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 // GGZ includes
 
@@ -73,7 +75,7 @@ public:
     // Check if Nodes already exist
     if(Nodes.count(id_) != 0)
       return;
-    Node<N>* newNode = new Node<N>(id_);
+    Node<N>* newNode = new Node<N>(id_,directed);
     Nodes.emplace(id_,newNode);
   }
 
@@ -82,16 +84,26 @@ public:
    * If the nodes don't already exist they will be added
    * @param sourceNode The source node
    * @param targetNode The target node
+   * @return true If edge was added
+   * @return false If edge wasn't added
   */
-  void addEdge(std::string sourceNode, std::string targetNode){
+  bool addEdge(std::string sourceNode, std::string targetNode){
     // Check if Nodes already exist, if not create them
     if(Nodes.count(sourceNode) == 0)
       addNode(sourceNode);
     if(Nodes.count(targetNode) == 0)
       addNode(targetNode);
 
+    // Check if Edge already exists
+    if(Nodes[sourceNode]->Edges.count(targetNode) != 0){
+      std::cout << "edge exists\n";
+      return false;
+    }
+
     Edge<E>* newEdge = new Edge<E>(Edges.size(), sourceNode, targetNode, directed);
     Edges.insert(newEdge);
+    Nodes[sourceNode]->addEdge(targetNode,newEdge->id);
+    Nodes[targetNode]->addEdge(sourceNode,newEdge->id);
   }
 
   //TODO - Node and Edges Getters and Setters
