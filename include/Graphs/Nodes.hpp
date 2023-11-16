@@ -26,10 +26,8 @@ class Edge;
 #include "Graphs.hpp"
 #include "Edges.hpp"
 
-/**
- * @brief The main Node class
- * @tparam T The weight type
- */
+/*****************************************************************************/
+
 template <class T>
 class Node {
 private:
@@ -39,66 +37,73 @@ private:
   template <class E>
   friend class Edge;
 
-  // Member Variables
   std::string id;
-  T data;
-  bool directed;
-  bool weighted;
-  std::unordered_map<std::string,int> Edges;
-  std::unordered_map<std::string,int> InEdges;
-  std::unordered_map<std::string,int> OutEdges;
-  // Either Edges is used or InEdges and OutEdges
-
-  // Constructors, Destructors, and Assignment Operators
-  /**
-   * @brief Weighted Node Constructor
-   * @param id_ Id for Node
-   * @param isDirected Sets if node is directed or not
-  */
-  Node(std::string id_, bool isDirected){
-    id = id_;
-    weighted = false;
-    directed = isDirected;
-  }
 
   /**
-   * @brief Weighted Node Constructor
-   * @param id_ Id for Node
-   * @param data_ Data of Node
-   * @param isDirected Sets if node is directed or now
-  */
-  Node(std::string id_, T data_, bool isDirected){
-    id = id_;
-    data = data_;
-    weighted = true;
-    directed = isDirected;
-  }
-
-  /**
-   * @brief Adds edge info to node
-   * @param otherNodeId The id of the node connected to
-   * @param EdgeId The id of the edge in the graphs set
+   * @brief Constructs an unweighted Node
+   * @param id_ Id of the Node
    */
-  void addEdge(std::string otherNodeId, int EdgeId){
-    //! Add implementation for directed graphs
-    Edges.emplace(otherNodeId,EdgeId);
+  Node(std::string& id_){
+    id = id_;
+    weight = NULL;
+  }
+
+  /**
+   * @brief Constructs an unweighted Node
+   * @param id_ Id of the Node
+   * @param T 
+   */
+  Node(std::string& id_, T& weight){
+    id = id_;
+    weight = weight;
+  }
+
+public:
+  T weight;
+
+  /**
+   * @brief Gets the weight of the node
+   * @return The weight of the node
+   */
+  T& getWeight() const {
+    return weight;
+  }
+
+};
+
+/*****************************************************************************/
+
+template <class T>
+class UndirectedNode : private Node<T> {
+private:
+
+  //! Store Edges
+
+  /**
+   * @brief Constructs an Undirected Node 
+   * @param id_ 
+   */
+  UndirectedNode(std::string& id_){
+    id = id_;
+  }
+
+  /**
+   * @brief Construct a weighted Undirected Node
+   * @param id_ 
+   * @param weight_ 
+   */
+  UndirectedNode(std::string& id_, T& weight_){
+    id = id_;
+    weight = weight_;
   }
 
 public:
 
 
-  // Overloaded Operators
-  /**
-   * @brief Overloaded Dereference Operator for Nodes
-  */
-  //std::string* operator->() { return &id; }
-
-  /**
-   * @brief Overloaded Equivalence Operator for Nodes
-   * @param other The other Node
-   */
-  bool operator==(const Node& other) const { return id = other.id; }
-
 };
+
+/*****************************************************************************/
+
+// Todo Directed Node Child goes here
 
 #endif
