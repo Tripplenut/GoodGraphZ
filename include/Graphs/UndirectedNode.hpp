@@ -69,7 +69,10 @@ private:
    * @return false If edge could not be added
    */
   bool addEdge(std::string otherNodeId, int edgeId){
-    //! Implement
+    if(Edges.count(otherNodeId) != 0)
+      return false;
+    Edges[otherNodeId] = edgeId;
+    return true;
   }
 
 public:

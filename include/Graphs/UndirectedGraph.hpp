@@ -36,7 +36,7 @@ private:
 
   std::unordered_map<std::string, UndirectedNode<N>*> Nodes;
   std::unordered_map<int, UndirectedEdge<E>*> Edges;
-
+  int edgeId = 0;
   bool weighted;
 
 public:
@@ -80,6 +80,8 @@ public:
 
   //TODO add weighted nodes
 
+  //TODO add removing nodes
+
   /**
    * @brief Adds an edge to the graph
    * @param node1Id The id of the first node
@@ -91,16 +93,20 @@ public:
     //! Gonna need a bunch of error checking (edge doesn't already exist)
     if(node1Id == node2Id) // Make sure nodes don't point to themselves
       return false;
-    
     addNode(node1Id);
     addNode(node2Id);
-
-    Edges[Edges.size()] = new UndirectedEdge<E>(Edges.size(), node1Id, node2Id);
-
+    if(Nodes.at(node1Id)->getEdgeId(node2Id) != -1) // Makes sure edge doesn't already exist
+      return false;
+    Edges[Edges.size()] = new UndirectedEdge<E>(edgeId, node1Id, node2Id);
+    Nodes.at(node1Id)->addEdge(node2Id,edgeId);
+    Nodes.at(node2Id)->addEdge(node1Id,edgeId);
+    edgeId++;
     return true;
   }
 
   //TODO add weighted edges
+
+  //TODO add removing edges
 
 };
 

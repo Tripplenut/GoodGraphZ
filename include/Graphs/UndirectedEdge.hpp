@@ -69,7 +69,6 @@ private:
   UndirectedEdge(int id_, T weight_, std::string node1Id_, std::string node2Id_){
     id = id_;
     weight = weight_;
-    weight = weight_;
     node1Id = node1Id_;
     node2Id = node2Id_;
   }
