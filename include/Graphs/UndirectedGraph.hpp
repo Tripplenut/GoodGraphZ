@@ -83,6 +83,32 @@ public:
   //TODO add removing nodes
 
   /**
+   * @brief Removes a node from the graph
+   * @param nodeId The id of the node
+   * @return true If node was removed
+   * @return false If node could not be removed
+   */
+  bool removeNode(std::string nodeId){
+    if (Nodes.count(nodeId) == 0) // Make sure node exists
+      return false;
+    std::vector<std::string> otherNodeIds = Nodes[nodeId]->getEdgeNodes();
+    std::vector<int> NodeEdgeIds = Nodes[nodeId]->getEdgeIds();
+
+    // Removing all edges from the nodes
+    for(int i=0; i < otherNodeIds.size(); i++){
+      Nodes[nodeId]->removeEdge(otherNodeIds[i]);
+      Nodes[otherNodeIds[i]]->removeEdge(nodeId);
+      delete Edges[NodeEdgeIds[i]];
+      Edges.erase(NodeEdgeIds[i]);
+    }
+    
+    delete Nodes[nodeId];
+    Nodes.erase(nodeId);
+    return true;
+  }
+
+
+  /**
    * @brief Adds an edge to the graph
    * @param node1Id The id of the first node
    * @param node2Id The id of the second node
@@ -107,7 +133,6 @@ public:
   //TODO add weighted edges
 
   //TODO add removing edges
-
 };
 
 #endif

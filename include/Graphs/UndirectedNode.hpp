@@ -75,6 +75,19 @@ private:
     return true;
   }
 
+  /**
+   * @brief Removes edge between current node and the other node
+   * @param otherNodeId 
+   * @return true Successfully removed node
+   * @return false Unsuccessfully removed edge
+   */
+  bool removeEdge(std::string otherNodeId){
+    if(Edges.count(otherNodeId) == 0)
+      return false;
+    Edges.erase(otherNodeId);
+    return true;
+  }
+
 public:
 
   T weight;
@@ -102,7 +115,7 @@ public:
    * Puts them in a vector and returns it.
    * @return std::vector<int> 
    */
-  std::vector<int> getEdgesIds(){
+  std::vector<int> getEdgeIds(){
     std::vector<int> res;
     for(auto iter = Edges.begin(); iter != Edges.end(); iter++){
       res.push_back(iter->second);
