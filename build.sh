@@ -14,7 +14,7 @@ function header {
 }
 
 # Default Variables
-export CXX=/usr/bin/clang
+export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
 SRC_DIRS=("./include" "./src" "./tests")
 BUILD_DIR=("./build")
@@ -34,8 +34,8 @@ do
     VALGRIND_ENABLED=true
     ;;
   --gcc)
-    GCC_COMPILER=true
-    export CXX=/usr/bin/gcc
+    GCC_ENABLED=true
+    export CC=/usr/bin/gcc
     export CXX=/usr/bin/g++
     ;;
   *)
@@ -80,7 +80,7 @@ then
   then
     header "Valgrind"
 
-    valgrind --leak-check=full "${TEST_EXE}"
+    valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --show-error-list=yes "${TEST_EXE}"
   fi
 fi
 

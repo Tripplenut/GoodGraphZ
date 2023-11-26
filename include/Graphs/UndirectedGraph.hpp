@@ -36,7 +36,7 @@ private:
 
   std::unordered_map<std::string, UndirectedNode<N>*> Nodes;
   std::unordered_map<int, UndirectedEdge<E>*> Edges;
-  int edgeId = 0;
+  int currentEdgeId = 0;
   bool weighted;
 
 public:
@@ -60,6 +60,9 @@ public:
     for(auto iter = Edges.begin(); iter != Edges.end(); iter++){
       delete iter->second;
     }
+
+    Nodes.clear();
+    Edges.clear();
   }
 
   /**
@@ -79,8 +82,6 @@ public:
   }
 
   //TODO add weighted nodes
-
-  //TODO add removing nodes
 
   /**
    * @brief Removes a node from the graph
@@ -115,7 +116,7 @@ public:
    * @return true If edge was successfully added
    * @return false If edge could not be added
    */
-  bool AddEdge(std::string node1Id, std::string node2Id){
+  bool addEdge(std::string node1Id, std::string node2Id){
     //! Gonna need a bunch of error checking (edge doesn't already exist)
     if(node1Id == node2Id) // Make sure nodes don't point to themselves
       return false;
@@ -123,16 +124,54 @@ public:
     addNode(node2Id);
     if(Nodes.at(node1Id)->getEdgeId(node2Id) != -1) // Makes sure edge doesn't already exist
       return false;
-    Edges[Edges.size()] = new UndirectedEdge<E>(edgeId, node1Id, node2Id);
-    Nodes.at(node1Id)->addEdge(node2Id,edgeId);
-    Nodes.at(node2Id)->addEdge(node1Id,edgeId);
-    edgeId++;
+    Edges[Edges.size()] = new UndirectedEdge<E>(currentEdgeId, node1Id, node2Id);
+    Nodes.at(node1Id)->addEdge(node2Id,currentEdgeId);
+    Nodes.at(node2Id)->addEdge(node1Id,currentEdgeId);
+    currentEdgeId++;
     return true;
   }
 
   //TODO add weighted edges
 
   //TODO add removing edges
+
+  /**
+   * @brief Removes an edge from the graph
+   * @param node1Id The id of the first node
+   * @param node2Id The id of the second node
+   * @return true If edge was successfully removed
+   * @return false If edge could not be removed
+   */
+  bool removeEdge(std::string node1Id, std::string node2Id){
+    if(Nodes.count(node1Id) == 0 || Nodes.count(node2Id) == 0) // Make sure nodes exist
+      return false;
+    int edgeId = Nodes.at(node1Id)->getEdgeId(node2Id);
+    if(edgeId == -1) // Make sure edge exists
+      return false;
+    delete Edges[edgeId];
+    Edges.erase(edgeId);
+    Nodes.at(node1Id)->removeEdge(node2Id);
+    Nodes.at(node2Id)->removeEdge(node1Id);
+    return true;
+  }
+
+  // Some Getters (mainly for testing rn)
+
+  /**
+   * @brief Returns the number of nodes in the graph
+   * @return int 
+   */
+  int NodesSize(){
+    return Nodes.size();
+  }
+
+  /**
+   * @brief Returns the number of edges in the graph
+   * @return int 
+   */
+  int EdgesSize(){
+    return Edges.size();
+  }
 };
 
 #endif
