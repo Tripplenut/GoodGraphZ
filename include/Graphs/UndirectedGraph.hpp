@@ -30,7 +30,7 @@
  * @tparam N The weight type for Nodes
  * @tparam E The weight type for Edges
  */
-template <class N, class E>
+template <class N = int, class E = int>
 class UndirectedGraph {
 private:
 
@@ -65,23 +65,29 @@ public:
     Edges.clear();
   }
 
+  //TODO Copy Constructor
+
+  //TODO Assignment Operator
+
   /**
-   * @brief Adds a node to the graph
+   * @brief Adds a node to the graph.
+   * If the graph is weighted be sure to provide a weight.
    * @param nodeId The name of the node
-   * @param weight Optional weight for the node
+   * @param weight Optional: The weight of the Node, Defaults to types constructor
    * @return true If node was successfully added
    * @return false If node could not be added
    */
-  bool addNode(std::string nodeId){
-    //! Gonna need some error checking
+  bool addNode(std::string nodeId, N weight = N()){
     if (Nodes.count(nodeId) != 0) // make sure nodes don't already exist
       return false;
-    
-    Nodes[nodeId] = new UndirectedNode<N>(nodeId);
+    //! The more I think about it we could just make every graph weighted by default
+    //! Idk sit on it before implementing more stuff
+    if (!weighted)
+      Nodes[nodeId] = new UndirectedNode<N>(nodeId);
+    else
+      Nodes[nodeId] = new UndirectedNode<N>(nodeId, weight);
     return true;
   }
-
-  //TODO add weighted nodes
 
   /**
    * @brief Removes a node from the graph
@@ -108,15 +114,16 @@ public:
     return true;
   }
 
-
   /**
-   * @brief Adds an edge to the graph
+   * @brief Adds an edge to the graph.
+   * If the graph is weighted be sure to provide a weight.
    * @param node1Id The id of the first node
    * @param node2Id The id of the second node
+   * @param weight Optional: The weight of the edge, Defaults to types constructor
    * @return true If edge was successfully added
    * @return false If edge could not be added
    */
-  bool addEdge(std::string node1Id, std::string node2Id){
+  bool addEdge(std::string node1Id, std::string node2Id, E weight = E()){
     //! Gonna need a bunch of error checking (edge doesn't already exist)
     if(node1Id == node2Id) // Make sure nodes don't point to themselves
       return false;
@@ -130,10 +137,6 @@ public:
     currentEdgeId++;
     return true;
   }
-
-  //TODO add weighted edges
-
-  //TODO add removing edges
 
   /**
    * @brief Removes an edge from the graph
@@ -158,11 +161,31 @@ public:
   // Some Getters (mainly for testing rn)
 
   /**
+   * @brief Returns the node in the graph
+   * @param nodeId The id of the node
+   * @return Node<N>* 
+   */
+  UndirectedNode<N>* node(std::string nodeId){
+    if(Nodes.count(nodeId) == 0) // make sure node exists
+      return NULL;
+    return Nodes.at(nodeId);
+  }
+
+  /**
    * @brief Returns the number of nodes in the graph
    * @return int 
    */
   int NodesSize(){
     return Nodes.size();
+  }
+
+  UndirectedEdge<E>* edge(std::string node1Id, std::string node2Id){
+    if(Nodes.count(node1Id) == 0 || Nodes.count(node2Id) == 0) // Make sure nodes exist
+      return NULL;
+    int edgeId = Nodes.at(node1Id)->getEdgeId(node2Id);
+    if(edgeId == -1) // Make sure edge exists
+      return NULL;
+    return Edges.at(edgeId);
   }
 
   /**

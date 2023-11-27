@@ -49,6 +49,7 @@ private:
    */
   UndirectedNode(std::string& id_){
     id = id_;
+    weight = NULL;
   }
 
   /**
@@ -93,10 +94,19 @@ public:
   T weight;
 
   /**
+   * @brief Sets the weight of the node
+   * @param weight_ 
+   */
+  void setWeight(T weight_){
+    if(weight_ != NULL)
+      weight = weight_;
+  }
+
+  /**
    * @brief Gets the weight of the node
    * @return The weight of the node
    */
-  T& getWeight() const {
+  T getWeight() const {
     return weight;
   }
 
