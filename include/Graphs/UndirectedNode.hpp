@@ -8,6 +8,8 @@
  * 
 */
 
+//! Switch from bool returns to exception throws
+
 #ifndef UNDIRECTEDNODES_HPP
 #define UNDIRECTEDNODES_HPP
 

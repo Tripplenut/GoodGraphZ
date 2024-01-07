@@ -28,6 +28,7 @@ class UndirectedNode;
 #include "UndirectedGraph.hpp"
 #include "UndirectedNode.hpp"
 
+//! Switch from bool returns to exception throws
 
 /**
  * @brief The undirected edge class

@@ -8,12 +8,17 @@
  * 
 */
 
+//! Switch from bool returns to exception throws
+
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
 // CPP Includes
 #include <iostream>
 #include <vector>
+
+// GGZ Includes
+#include "../Tools/exceptions.hpp"
 
 class Matrix{
 
@@ -29,6 +34,9 @@ public:
    * @param size_ The size of the matrix
    */
   Matrix(int size_){
+    if(size_ < 1){
+      throw SizeException("Matrix must have size greater than 0.");
+    }
     data.resize(size_);
     for(int r=0; r<size_; r++){
       data[r].resize(size_);
@@ -49,7 +57,7 @@ public:
     for(int r=0; r<size_; r++){
       data[r].resize(size_);
       for(int c=0; c<size_; c++){
-        other.hasEdge(r,c) ? addEdge(r,c) : removeEdge(r,c);
+        data[r][c] = other.getWeight(r,c);
       }
     }
     size = size_;
@@ -67,7 +75,7 @@ public:
     for(int r=0; r<size_; r++){
       data[r].resize(size_);
       for(int c=0; c<size_; c++){
-        other.hasEdge(r,c) ? addEdge(r,c) : removeEdge(r,c);
+        data[r][c] = other.getWeight(r,c);
       }
     }
     size = size_;
@@ -151,7 +159,7 @@ public:
    * @brief Set the weight of an edge
    * @param source Index of source node
    * @param target Index of target node
-   * @param value weight assigned to edge
+   * @param weight weight assigned to edge
    * @return true If weight was set
    * @return false If weight was not set
    */
